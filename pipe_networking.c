@@ -27,8 +27,8 @@ int server_handshake(int *to_client) {
   int downfd = open(private_name, O_WRONLY);
   printf("server connected to downstream pipe\n");
 
-  write(downfd, ACK, HANDSHAKE_BUFFER_SIZE);
-  printf("server sent message: \"%s\"\n", ACK);
+  write(downfd, private_name, HANDSHAKE_BUFFER_SIZE);
+  printf("server sent message: \"%s\"\n", private_name);
 
   char message[HANDSHAKE_BUFFER_SIZE];
   read(upfd, message, HANDSHAKE_BUFFER_SIZE);
@@ -63,7 +63,7 @@ int client_handshake(int *to_server) {
   int downfd = open(private_name, O_RDONLY);
   printf("client connected to downstream pipe\n");
 
-  char * message;
+  char message[HANDSHAKE_BUFFER_SIZE];
   read(downfd, message, HANDSHAKE_BUFFER_SIZE);
   printf("client received message: \"%s\"\n", message);
 

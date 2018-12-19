@@ -1,12 +1,20 @@
 #include "pipe_networking.h"
 
+static void sighandler(int signo) {
+	if (signo == SIGINT) {
+		remove("WKP");
+		exit(0);
+	}
+}
 
 int main() {
+	signal(SIGINT, sighandler);
 	int to_client;
 	int from_client;
 	char data[BUFFER_SIZE];
 	char processed[BUFFER_SIZE];
 	int r;
+	int i;
 	while(1) {
 	  from_client = server_handshake( &to_client );
 	  while(1) {
